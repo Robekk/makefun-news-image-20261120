@@ -403,7 +403,7 @@ briefs = [
     "Florida's St. Johns River hits a record 18.3 ft; schools shut in four counties",
     "The US war against Iran has cost $48.3bn, the Pentagon says",
     "Taiwan reports Russian bombers flying east of the island",
-    "Jakarta: Indonesia's parliament passes an asset-forfeiture bill",
+    "Jakarta stocks fall with Asia: the JCI opens 0.8% lower, the rupiah near record lows",
     "GTA VI's first full day: user scores open, Metacritic 99",
     "California probes Nvidia over China chip risks",
     "Oil eases in Friday dealing: Brent $89.72, WTI $82.83",
@@ -458,7 +458,8 @@ dc = ("DATE CHECK — First reported Thursday 19 November, so they are NOT on th
       "the Shenzhen trilateral summit and its peace declaration · the ICJ's genocide ruling on Myanmar · "
       "Anthropic's record market debut · the release of GTA VI · the US Senate's 51-48 Iran war-powers vote · "
       "Denmark's Greenland defence pact · Voyager 1's light-day milestone (18 Nov) · "
-      "the acquittal of South Korea's ex-PM Han (19 Nov). Their Friday fallout is covered above.")
+      "the acquittal of South Korea's ex-PM Han (19 Nov) · Indonesia's asset-forfeiture law (19 Nov). "
+      "Their Friday fallout is covered above.")
 draw_lines(MX + 12, dy + 6, wrap(dc, dcf, CW - 24), dcf, INK, 1.15)
 
 # ---------------------------------------------------------------- 9. footer
