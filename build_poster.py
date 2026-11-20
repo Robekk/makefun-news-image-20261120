@@ -115,7 +115,7 @@ CW = 1024 - 2 * MX  # content width (final px)
 # ---------------------------------------------------------------- 1. kicker
 kf = sans_b(11)
 spaced(MX, 18, "ONE DAY OF WORLD NEWS, ONE PICTURE", kf, INK)
-spaced_right(1024 - MX, 18, "43 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
+spaced_right(1024 - MX, 18, "50 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
 hline(MX, 1024 - MX, 40, INK, 3)
 hline(MX, 1024 - MX, 45, HAIR, 1)
 
@@ -128,7 +128,7 @@ hline(MX, 1024 - MX, 108, INK, 3)
 
 # ---------------------------------------------------------------- 3. stat strip
 stats = [
-    ("298,676", "people evacuated in Odisha before Cyclone Akvan"),
+    ("370,000", "people evacuated in Odisha before Cyclone Akvan"),
     ("-4.7%", "Nikkei 225 close, Friday in Tokyo"),
     ("-2.02%", "S&P 500 overnight — a sixth straight fall"),
     ("144 → 80", "paragraphs left in the COP31 draft"),
@@ -223,9 +223,9 @@ def art_whitehouse(x, y, w, h):
 # ---------------------------------------------------------------- 5. hero cards
 heroes = [
     ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan crosses the coast near Gopalpur",
-     "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says; the landfall process continues, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. Patrapur in Ganjam district recorded 209 mm of rain in 24 hours. 298,676 people were evacuated to 2,523 camps and 9,341 shelters; 423 rescue teams deployed.", art_storm),
+     "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. Patrapur, Ganjam district, recorded 209 mm in 24 hours; 370,000 people evacuated to 2,523 camps and 9,341 shelters; 423 rescue teams deployed. Officials report no major damage or loss of life; India's third cyclone in 24 days, weakening into a deep depression inland.", art_storm),
     ("2", "ASIA-PACIFIC · MARKETS · REPORTED", "AI selloff deepens as Asia's markets slide",
-     "Tokyo's Nikkei closed down 4.7% at 56,631; Seoul's Kospi fell 4.7% and Taiwan over 5% - Taiwan is down 16% this week, its worst since 1991 - with SoftBank down 16%. Asia is heading for its worst week since 2020. Overnight the Nasdaq fell 2.25% after a four-point intraday reversal; Anthropic's record debut failed to lift the sector.", art_chart),
+     "Seoul's Kospi closed down 5.2% at 4,869.96, its lowest in 10 months, with sell-side sidecars halting program selling; Samsung Electronics fell 7%. Tokyo's Nikkei closed down 4.7% at 56,631 with SoftBank down 16%, and Taiwan is down 16% this week, its worst since 1991. Asia is heading for its worst week since 2020 after the Nasdaq's 2.25% fall; Anthropic's record debut failed to lift the sector.", art_chart),
     ("3", "WASHINGTON · POLITICS · TODAY", "Trump faces the press on his Asia trip at noon",
      "The White House news conference, his first since the Shenzhen summit, is set to cover the trip and trade deals with Thailand, the Philippines and others.", art_whitehouse),
 ]
@@ -244,11 +244,13 @@ for i, (num, tag, head, dek, art) in enumerate(heroes):
     yy = draw_lines(cx + 12, hy + 104, wrap(head, hf, hw - 24), hf, INK, 1.12)
     # Heroes 1 and 2 have longer deks; they are set a touch smaller so each
     # stays inside its card. Hero 1's dek grew again in v6 (Patrapur rain,
-    # shelter count), so it drops to 7.5/1.03 — 6 lines, ~11px to spare.
-    # Hero 2's dek grew in v7 (Taiwan week stat, Anthropic line), so it
-    # drops to 8.5/1.08.
-    hdkf = {"1": sans(7.5), "2": sans(8.5)}.get(num, dkf)
-    hlead = {"1": 1.03, "2": 1.08}.get(num, 1.15)
+    # shelter count), so it drops to 7.5/1.03. In v11 it gains the afternoon
+    # outcome (no major damage reported; third cyclone in 24 days; weakening
+    # into a deep depression) and runs 7 lines at 7.5/1.03, ~3px to spare.
+    # Hero 2's v11 dek (Kospi close, Samsung, sidecars) no longer fits at
+    # 8.5/1.08, so it joins hero 1 at 7.5/1.03 — 6 lines.
+    hdkf = {"1": sans(7.5), "2": sans(7.5)}.get(num, dkf)
+    hlead = {"1": 1.03, "2": 1.03}.get(num, 1.15)
     draw_lines(cx + 12, yy + 3, wrap(dek, hdkf, hw - 24), hdkf, INK, hlead)
 
 # ---------------------------------------------------------------- 6. story grid 4-13
@@ -274,7 +276,7 @@ cards = [
     ("13", "AMERICAS · CEREMONY", "TODAY", "Sheinbaum leads Mexico's Revolution Day parade",
      "The 116th anniversary of the 1910 revolution, held amid strain with Washington."),
 ]
-gy = hy + hh + 8
+gy = hy + hh + 5
 gw = (CW - 4 * 10) / 5
 gh = 118
 ctf, chf, cdf = sans_b(9), serif_b(12), sans(9)
@@ -302,9 +304,18 @@ for idx, (num, tag, chip, head, dek) in enumerate(cards):
 # v9: band is taller (166 -> 180) and the map narrower (450 -> 320) so the
 # briefs beside it can run at a readable 7.25pt; the small gaps above and
 # below the band give up a few px to pay for the extra height.
+# v11: 37 briefs (50 stories) at the same fixed 7.25pt — the band grows
+# again (180 -> 195) and the map narrows a touch (320 -> 288) to widen the
+# brief columns; the height is paid for by tightening the gaps around the
+# band (heroes->grid 8 -> 5, band->date-check 5 -> 2). Two gaps stay at
+# their v10 values on purpose: grid->band 5 (card 9's long dek spills ~7px
+# below its panel, as in v10, and needs the gap to stay readable) and
+# date-check->footer 6 (the DATE CHECK text wraps to a 4th line that
+# spills ~5px below its red band, as in v10, and the footer rule must
+# clear it). The brief font does NOT shrink.
 by = gy + 2 * gh + 6 + 5
-bh = 180
-mapw = 320
+bh = 195
+mapw = 288
 d.rectangle([X(MX), X(by), X(MX + mapw), X(by + bh)], fill=(238, 240, 235), outline=HAIR, width=S)
 d.text((X(MX + 12), X(by + 7)), "WHERE IT HAPPENED", font=sans_b(12), fill=INK)
 # Simplified low-poly world map: one (lon, lat) polygon per landmass, drawn
@@ -372,7 +383,7 @@ for lon, lat, n in pin_order:
 for lon, lat, n in pin_order:
     draw_pin(lon, lat, n, number_only=True)
 
-# right: ALSO ON FRIDAY briefs 14-43, three flowing columns
+# right: ALSO ON FRIDAY briefs 14-50, three flowing columns
 ax = MX + mapw + 16
 aw = 1024 - MX - ax
 d.text((X(ax), X(by + 1)), "ALSO ON FRIDAY", font=sans_b(12), fill=INK)
@@ -407,6 +418,13 @@ briefs = [
     "Bitcoin slips to $61,503 in Friday trade",
     "Flash-flood risk in Ganjam, Puri, Gajapati and Mayurbhanj as Akvan moves inland",
     "Akvan weakens inland; officials expect no major damage, fishermen stay ashore till Saturday",
+    "Orange alert for five Jharkhand districts as Akvan's rain pushes inland",
+    "Taiwan's Taiex falls over 5% in the Asia rout",
+    "World Children's Day is marked on 20 November",
+    "India's electronics exports rise as phone shipments grow",
+    "Philippines and Chile open trade talks in Santiago",
+    "EU agrees new methane rules for imported gas",
+    "Storms knock out power across South Australia",
 ]
 bcolw = (aw - 24) / 3
 
@@ -418,8 +436,13 @@ bcolw = (aw - 24) / 3
 # with comfortable spacing. The columns stay in list order but the two
 # split points are chosen to balance column heights, so no column can
 # overflow the band.
+# v11: seven briefs join (Jharkhand orange alert, Taiex rout, plus restored
+# and updated v9 cuts: Children's Day, India electronics, Philippines-Chile
+# trade talks, EU methane, South Australia storm) for 37 briefs / 50
+# stories — still at the fixed 7.25pt; the inter-brief gap eases 2.25 ->
+# 2.0 and the taller band (see section 7 header) absorbs the rest.
 BRIEFINK = (10, 10, 14)
-bfs, blead, bgap = 7.25, 1.10, 2.25
+bfs, blead, bgap = 7.25, 1.10, 2.0
 bff = sans(bfs)
 bnf = sans_b(bfs)
 
@@ -448,7 +471,7 @@ for col, chunk in enumerate(chunks):
         n += 1
 
 # ---------------------------------------------------------------- 8. date check
-dy = by + bh + 5
+dy = by + bh + 2
 d.rectangle([X(MX), X(dy), X(1024 - MX), X(dy + 48)], fill=REDBAND)
 dcf = sans(10.5)
 dc = ("DATE CHECK — First reported Thursday 19 November, so they are NOT on this page as Friday's news: "
