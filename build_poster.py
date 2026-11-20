@@ -115,7 +115,7 @@ CW = 1024 - 2 * MX  # content width (final px)
 # ---------------------------------------------------------------- 1. kicker
 kf = sans_b(11)
 spaced(MX, 18, "ONE DAY OF WORLD NEWS, ONE PICTURE", kf, INK)
-spaced_right(1024 - MX, 18, "47 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
+spaced_right(1024 - MX, 18, "51 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
 hline(MX, 1024 - MX, 40, INK, 3)
 hline(MX, 1024 - MX, 45, HAIR, 1)
 
@@ -153,7 +153,7 @@ d.rectangle([X(MX), X(ty), X(1024 - MX), X(ty + 76)], fill=PANEL)
 d.text((X(MX + 12), X(ty + 6)), "THE DAY IN UTC", font=sans_b(11.5), fill=RED)
 stops = [
     ("Overnight", "Kyiv hit by four ballistic missiles; Dutch embassy damaged"),
-    ("~06:30 UTC", "Cyclone Akvan makes landfall in Odisha"),
+    ("~02:00 UTC", "Cyclone Akvan crosses the coast near Gopalpur"),
     ("Morning", "Asia's AI selloff deepens; China holds its loan rates"),
     ("17:00 UTC", "Trump faces the press at the White House"),
     ("Late", "Wall Street opens after six straight falls"),
@@ -216,8 +216,8 @@ def art_whitehouse(x, y, w, h):
 
 # ---------------------------------------------------------------- 5. hero cards
 heroes = [
-    ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan comes ashore at Gopalpur",
-     "Landfall near noon Friday; the IMD says Akvan has weakened to a cyclonic storm, winds 70-80 gusting to 90 km/h, and the crossing may take seven to eight hours. 298,676 people were moved to shelters and 423 rescue teams deployed — India's east coast's third cyclone in a month.", art_storm),
+    ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan crosses the coast near Gopalpur",
+     "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says; the landfall process continues, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. 298,676 people were evacuated to 2,523 camps and 423 rescue teams deployed.", art_storm),
     ("2", "ASIA-PACIFIC · MARKETS · REPORTED", "AI selloff deepens as Asia's markets slide",
      "The Nikkei fell 4.6% by mid-morning, Seoul's Kospi 4.8% and Taiwan over 6%, with SoftBank down 14% — Asia is heading for its worst week since 2020. Overnight the Nasdaq fell 2.25% after a four-point intraday reversal.", art_chart),
     ("3", "WASHINGTON · POLITICS · TODAY", "Trump faces the press on his Asia trip at noon",
@@ -238,8 +238,8 @@ for i, (num, tag, head, dek, art) in enumerate(heroes):
     yy = draw_lines(cx + 12, hy + 104, wrap(head, hf, hw - 24), hf, INK, 1.12)
     # Heroes 1 and 2 have longer deks; they are set a touch smaller so each
     # stays inside its card.
-    hdkf = {"1": sans(9.0), "2": sans(10.0)}.get(num, dkf)
-    hlead = {"1": 1.08, "2": 1.12}.get(num, 1.15)
+    hdkf = {"1": sans(8.5), "2": sans(10.0)}.get(num, dkf)
+    hlead = {"1": 1.05, "2": 1.12}.get(num, 1.15)
     draw_lines(cx + 12, yy + 3, wrap(dek, hdkf, hw - 24), hdkf, INK, hlead)
 
 # ---------------------------------------------------------------- 6. story grid 4-13
@@ -391,7 +391,7 @@ briefs = [
     "Australia beat Argentina 2-0 at the U17 World Cup",
     "World Children's Day is marked around the globe",
     "Amur falcons complete their Arabian Sea crossing",
-    "Florida's St. Johns River hits a record 18.3 ft; schools shut",
+    "Florida's St. Johns River hits a record 18.3 ft; schools shut in four counties",
     "The US war against Iran has cost $48.3bn, the Pentagon says",
     "Taiwan reports Russian bombers flying east of the island",
     "Jakarta: Indonesia's parliament passes an asset-forfeiture bill",
@@ -399,6 +399,10 @@ briefs = [
     "California probes Nvidia over China chip risks",
     "Oil eases in Friday dealing: Brent $89.72, WTI $82.83",
     "China-Africa expo opens its second day in Johannesburg",
+    "Iowa: the army blows up 68 barrels of unstable explosive at noon",
+    "South Australia storm fells two towers; 24,000 properties lose power",
+    "Italy hit by a 24-hour general strike; rail stoppage runs into Saturday",
+    "Bitcoin slips to $61,503 in Friday trade",
 ]
 bcolw = (aw - 24) / 3
 per = (len(briefs) + 2) // 3
@@ -420,7 +424,8 @@ def brief_height(fs, leading, gap):
 # Shrink the brief type until all three columns fit inside the band.
 bfs, blead, bgap = 6.0, 1.05, 1.5
 for fs_try, lead_try, gap_try in ((7.5, 1.05, 2.0), (7.0, 1.05, 1.8), (7.0, 1.03, 1.5),
-                                  (6.5, 1.05, 1.5), (6.5, 1.03, 1.2), (6.0, 1.05, 1.5)):
+                                  (6.5, 1.05, 1.5), (6.5, 1.03, 1.2), (6.0, 1.05, 1.5),
+                                  (5.5, 1.03, 1.0), (5.25, 1.03, 1.0), (5.0, 1.03, 1.0)):
     if brief_height(fs_try, lead_try, gap_try) <= bh - 28:
         bfs, blead, bgap = fs_try, lead_try, gap_try
         break
