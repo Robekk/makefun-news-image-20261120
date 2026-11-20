@@ -115,7 +115,7 @@ CW = 1024 - 2 * MX  # content width (final px)
 # ---------------------------------------------------------------- 1. kicker
 kf = sans_b(11)
 spaced(MX, 18, "ONE DAY OF WORLD NEWS, ONE PICTURE", kf, INK)
-spaced_right(1024 - MX, 18, "51 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
+spaced_right(1024 - MX, 18, "52 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
 hline(MX, 1024 - MX, 40, INK, 3)
 hline(MX, 1024 - MX, 45, HAIR, 1)
 
@@ -223,7 +223,7 @@ def art_whitehouse(x, y, w, h):
 # ---------------------------------------------------------------- 5. hero cards
 heroes = [
     ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan crosses the coast near Gopalpur",
-     "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says; the landfall process continues, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. 298,676 people were evacuated to 2,523 camps and 423 rescue teams deployed.", art_storm),
+     "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says; the landfall process continues, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. Patrapur in Ganjam district recorded 209 mm of rain in 24 hours. 298,676 people were evacuated to 2,523 camps and 9,341 shelters; 423 rescue teams deployed.", art_storm),
     ("2", "ASIA-PACIFIC · MARKETS · REPORTED", "AI selloff deepens as Asia's markets slide",
      "The Nikkei fell 4.6% by mid-morning, Seoul's Kospi 4.8% and Taiwan over 6%, with SoftBank down 14% — Asia is heading for its worst week since 2020. Overnight the Nasdaq fell 2.25% after a four-point intraday reversal.", art_chart),
     ("3", "WASHINGTON · POLITICS · TODAY", "Trump faces the press on his Asia trip at noon",
@@ -243,9 +243,10 @@ for i, (num, tag, head, dek, art) in enumerate(heroes):
     d.text((X(cx + 12), X(hy + 86)), tag, font=tagf, fill=GOLD)
     yy = draw_lines(cx + 12, hy + 104, wrap(head, hf, hw - 24), hf, INK, 1.12)
     # Heroes 1 and 2 have longer deks; they are set a touch smaller so each
-    # stays inside its card.
-    hdkf = {"1": sans(8.5), "2": sans(10.0)}.get(num, dkf)
-    hlead = {"1": 1.05, "2": 1.12}.get(num, 1.15)
+    # stays inside its card. Hero 1's dek grew again in v6 (Patrapur rain,
+    # shelter count), so it drops to 7.5/1.03 — 6 lines, ~11px to spare.
+    hdkf = {"1": sans(7.5), "2": sans(10.0)}.get(num, dkf)
+    hlead = {"1": 1.03, "2": 1.12}.get(num, 1.15)
     draw_lines(cx + 12, yy + 3, wrap(dek, hdkf, hw - 24), hdkf, INK, hlead)
 
 # ---------------------------------------------------------------- 6. story grid 4-13
@@ -409,6 +410,7 @@ briefs = [
     "South Australia storm fells two towers; 24,000 properties lose power",
     "Italy hit by a 24-hour general strike; rail stoppage runs into Saturday",
     "Bitcoin slips to $61,503 in Friday trade",
+    "Flash-flood risk in Ganjam, Puri, Gajapati and Mayurbhanj as Akvan moves inland",
 ]
 bcolw = (aw - 24) / 3
 per = (len(briefs) + 2) // 3
