@@ -115,7 +115,7 @@ CW = 1024 - 2 * MX  # content width (final px)
 # ---------------------------------------------------------------- 1. kicker
 kf = sans_b(11)
 spaced(MX, 18, "ONE DAY OF WORLD NEWS, ONE PICTURE", kf, INK)
-spaced_right(1024 - MX, 18, "40 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
+spaced_right(1024 - MX, 18, "45 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
 hline(MX, 1024 - MX, 40, INK, 3)
 hline(MX, 1024 - MX, 45, HAIR, 1)
 
@@ -131,7 +131,7 @@ stats = [
     ("298,676", "people evacuated in Odisha before Cyclone Akvan"),
     ("-4.6%", "Nikkei 225, Friday morning in Tokyo"),
     ("-2.02%", "S&P 500 overnight — a sixth straight fall"),
-    ("EUR 45bn", "EU loan proposed for Ukraine"),
+    ("144 → 80", "paragraphs left in the COP31 draft"),
     ("60", "Houthi targets the coalition says it struck"),
     ("2.2%", "Japan core inflation — the year's high"),
 ]
@@ -152,7 +152,7 @@ ty = 200
 d.rectangle([X(MX), X(ty), X(1024 - MX), X(ty + 76)], fill=PANEL)
 d.text((X(MX + 12), X(ty + 6)), "THE DAY IN UTC", font=sans_b(11.5), fill=RED)
 stops = [
-    ("Overnight", "Kyiv hit by ballistic missiles; Crimean Bridge hit a third time"),
+    ("Overnight", "Kyiv hit by four ballistic missiles; Dutch embassy damaged"),
     ("~06:30 UTC", "Cyclone Akvan makes landfall in Odisha"),
     ("Morning", "Asia's AI selloff deepens; China holds its loan rates"),
     ("17:00 UTC", "Trump faces the press at the White House"),
@@ -219,7 +219,7 @@ heroes = [
     ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan comes ashore at Gopalpur",
      "Landfall near noon Friday with winds of 90-100 km/h. 298,676 people were moved to shelters and 423 rescue teams deployed — India's east coast's third cyclone in a month.", art_storm),
     ("2", "ASIA-PACIFIC · MARKETS · REPORTED", "AI selloff deepens as Asia's markets slide",
-     "The Nikkei fell 4.6% by mid-morning and Seoul's Kospi 4.8%, with SoftBank down 14%. Taiwan's regulator unveiled five measures to steady its market as short-sale limits took effect.", art_chart),
+     "The Nikkei fell 4.6% by mid-morning, Seoul's Kospi 4.8% and Taiwan over 6%, with SoftBank down 14% — Asia is heading for its worst week since 2020. Overnight the Nasdaq fell 2.25% after a four-point intraday reversal.", art_chart),
     ("3", "WASHINGTON · POLITICS · TODAY", "Trump faces the press on his Asia trip at noon",
      "The White House news conference, his first since the Shenzhen summit, is set to cover the trip and trade deals with Thailand, the Philippines and others.", art_whitehouse),
 ]
@@ -236,22 +236,25 @@ for i, (num, tag, head, dek, art) in enumerate(heroes):
     d.text((X(cx + 25 - nw / 2), X(hy + 16.5)), num, font=sans_b(14), fill=WHITE)
     d.text((X(cx + 12), X(hy + 86)), tag, font=tagf, fill=GOLD)
     yy = draw_lines(cx + 12, hy + 104, wrap(head, hf, hw - 24), hf, INK, 1.12)
-    draw_lines(cx + 12, yy + 3, wrap(dek, dkf, hw - 24), dkf, INK, 1.15)
+    # Hero 2's longer dek is set a touch smaller so it stays inside its card.
+    hdkf = sans(10.0) if num == "2" else dkf
+    hlead = 1.12 if num == "2" else 1.15
+    draw_lines(cx + 12, yy + 3, wrap(dek, hdkf, hw - 24), hdkf, INK, hlead)
 
 # ---------------------------------------------------------------- 6. story grid 4-13
 cards = [
     ("4", "EUROPE · UKRAINE WAR", None, "Kyiv hit by four ballistic missiles; embassy damaged",
-     "A projectile damaged the Dutch embassy; The Hague summoned Russia's ambassador. The Crimean Bridge was hit a third time in four days, Kyiv says."),
+     "A projectile damaged the Dutch embassy; The Hague summoned Russia's ambassador. In Berlin, Ukraine's allies backed a winter energy ceasefire."),
     ("5", "MIDDLE EAST · CONFLICT", None, "Tanker ablaze after mine strike east of Hormuz",
-     "Iran widened attacks on Gulf states and shipping; the IEA calls the conflict the biggest energy-security threat in history."),
+     "Iran widened attacks on Gulf states and shipping; the IEA calls the conflict the biggest energy-security threat in history. A maritime centre counts four attacks on commercial vessels in 96 hours."),
     ("6", "ASIA · RATES", None, "China leaves its loan rates unchanged",
      "One-year LPR held at 3.0% and five-year at 3.5% for an 18th month; the PBoC's signal is now its 1.25% overnight rate."),
     ("7", "ASIA · INFLATION", None, "Japan's core inflation rises to 2.2%",
      "The year's high, as an energy subsidy expired; markets now look to a December Bank of Japan rate rise."),
     ("8", "YEMEN · WAR", "CLAIM", "Coalition says it struck 60 Houthi targets",
      "It says four ballistic missiles were stopped. The Houthis claim strikes on four Saudi targets, including a Riyadh tower."),
-    ("9", "ASIA · JUSTICE", None, "South Korea's top court clears ex-PM Han",
-     "The Supreme Court overturned Han Duck-soo's conviction over the 2024 martial-law case."),
+    ("9", "ANTALYA · CLIMATE", None, "COP31 reaches its final day with no deal in sight",
+     "Negotiators hunt a final text by midnight. The draft is cut from 144 paragraphs to 80, the fossil-fuel words are dropped and the $120bn adaptation figure is unresolved."),
     ("10", "ASIA · SECURITY", "REPORTED", "North Korea expanding uranium enrichment",
      "The UN watchdog reports growth at the Yongbyon nuclear site."),
     ("11", "ASIA · HEALTH", None, "India launches its own H5N1 bird-flu vaccine",
@@ -279,7 +282,10 @@ for idx, (num, tag, chip, head, dek) in enumerate(cards):
         d.rectangle([X(cx + gw - cwid - 5), X(cy + gh - 19), X(cx + gw - 5), X(cy + gh - 4)], fill=GOLD)
         d.text((X(cx + gw - cwid - 0.5), X(cy + gh - 17)), chip, font=chipf, fill=WHITE)
     yy = draw_lines(cx + 7, cy + 27, wrap(head, chf, gw - 14), chf, INK, 1.08)
-    draw_lines(cx + 7, yy + 2, wrap(dek, cdf, gw - 14), cdf, INK, 1.08)
+    # Card 5's extended dek is set a touch smaller so it stays inside its card.
+    cdkf = sans(8.0) if num == "5" else cdf
+    cdlead = 1.02 if num == "5" else 1.08
+    draw_lines(cx + 7, yy + 2, wrap(dek, cdkf, gw - 14), cdkf, INK, cdlead)
 
 # ---------------------------------------------------------------- 7. bottom band
 by = gy + 2 * gh + 6 + 8
@@ -370,8 +376,7 @@ briefs = [
     "Sensex +1.21% as India defies the selloff",
     "IEA: data-centre power use could double by 2030",
     "COP31 draft drops the fossil-fuel words",
-    "Nicholls 113* as New Zealand reach 243/5 v India",
-    "NASA: Voyager 1 is now a full light-day from Earth",
+    "Phillips 118 and Nicholls 128* as New Zealand pass 300 on day two v India",
     "Modi opens a civilisations forum in Delhi",
     "Merz hosts Qatar's emir in Berlin",
     "Trump announces a posthumous pardon for Pete Rose",
@@ -384,6 +389,12 @@ briefs = [
     "Australia beat Argentina 2-0 at the U17 World Cup",
     "World Children's Day is marked around the globe",
     "Amur falcons complete their Arabian Sea crossing",
+    "Florida's St. Johns River hits a record 18.3 ft; schools shut",
+    "The US war against Iran has cost $48.3bn, the Pentagon says",
+    "Taiwan reports Russian bombers flying east of the island",
+    "Jakarta: Indonesia's parliament passes an asset-forfeiture bill",
+    "GTA VI's first full day: user scores open, Metacritic 99",
+    "California probes Nvidia over China chip risks",
 ]
 bcolw = (aw - 24) / 3
 per = (len(briefs) + 2) // 3
@@ -426,7 +437,8 @@ dcf = sans(10.5)
 dc = ("DATE CHECK — First reported Thursday 19 November, so they are NOT on this page as Friday's news: "
       "the Shenzhen trilateral summit and its peace declaration · the ICJ's genocide ruling on Myanmar · "
       "Anthropic's record market debut · the release of GTA VI · the US Senate's 51-48 Iran war-powers vote · "
-      "Denmark's Greenland defence pact. Their Friday fallout is covered above.")
+      "Denmark's Greenland defence pact · Voyager 1's light-day milestone (19 Nov) · "
+      "the acquittal of South Korea's ex-PM Han (19 Nov). Their Friday fallout is covered above.")
 draw_lines(MX + 12, dy + 6, wrap(dc, dcf, CW - 24), dcf, INK, 1.15)
 
 # ---------------------------------------------------------------- 9. footer
