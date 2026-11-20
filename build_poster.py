@@ -129,7 +129,7 @@ hline(MX, 1024 - MX, 108, INK, 3)
 # ---------------------------------------------------------------- 3. stat strip
 stats = [
     ("298,676", "people evacuated in Odisha before Cyclone Akvan"),
-    ("-4.5%", "Nikkei 225, Friday in Tokyo - below 57,000"),
+    ("-4.7%", "Nikkei 225 close, Friday in Tokyo"),
     ("-2.02%", "S&P 500 overnight — a sixth straight fall"),
     ("144 → 80", "paragraphs left in the COP31 draft"),
     ("60", "Houthi targets the coalition says it struck"),
@@ -225,7 +225,7 @@ heroes = [
     ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan crosses the coast near Gopalpur",
      "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says; the landfall process continues, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. Patrapur in Ganjam district recorded 209 mm of rain in 24 hours. 298,676 people were evacuated to 2,523 camps and 9,341 shelters; 423 rescue teams deployed.", art_storm),
     ("2", "ASIA-PACIFIC · MARKETS · REPORTED", "AI selloff deepens as Asia's markets slide",
-     "Tokyo's Nikkei fell as much as 4.5%, below 57,000; Seoul's Kospi fell 4.7% and Taiwan over 5% - Taiwan is down 16% this week, its worst since 1991 - with SoftBank down 14%. Asia is heading for its worst week since 2020. Overnight the Nasdaq fell 2.25% after a four-point intraday reversal; Anthropic's record debut failed to lift the sector.", art_chart),
+     "Tokyo's Nikkei closed down 4.7% at 56,631; Seoul's Kospi fell 4.7% and Taiwan over 5% - Taiwan is down 16% this week, its worst since 1991 - with SoftBank down 16%. Asia is heading for its worst week since 2020. Overnight the Nasdaq fell 2.25% after a four-point intraday reversal; Anthropic's record debut failed to lift the sector.", art_chart),
     ("3", "WASHINGTON · POLITICS · TODAY", "Trump faces the press on his Asia trip at noon",
      "The White House news conference, his first since the Shenzhen summit, is set to cover the trip and trade deals with Thailand, the Philippines and others.", art_whitehouse),
 ]
