@@ -115,7 +115,7 @@ CW = 1024 - 2 * MX  # content width (final px)
 # ---------------------------------------------------------------- 1. kicker
 kf = sans_b(11)
 spaced(MX, 18, "ONE DAY OF WORLD NEWS, ONE PICTURE", kf, INK)
-spaced_right(1024 - MX, 18, "45 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
+spaced_right(1024 - MX, 18, "47 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
 hline(MX, 1024 - MX, 40, INK, 3)
 hline(MX, 1024 - MX, 45, HAIR, 1)
 
@@ -217,7 +217,7 @@ def art_whitehouse(x, y, w, h):
 # ---------------------------------------------------------------- 5. hero cards
 heroes = [
     ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan comes ashore at Gopalpur",
-     "Landfall near noon Friday with winds of 90-100 km/h. 298,676 people were moved to shelters and 423 rescue teams deployed — India's east coast's third cyclone in a month.", art_storm),
+     "Landfall near noon Friday; the IMD says Akvan has weakened to a cyclonic storm, winds 70-80 gusting to 90 km/h, and the crossing may take seven to eight hours. 298,676 people were moved to shelters and 423 rescue teams deployed — India's east coast's third cyclone in a month.", art_storm),
     ("2", "ASIA-PACIFIC · MARKETS · REPORTED", "AI selloff deepens as Asia's markets slide",
      "The Nikkei fell 4.6% by mid-morning, Seoul's Kospi 4.8% and Taiwan over 6%, with SoftBank down 14% — Asia is heading for its worst week since 2020. Overnight the Nasdaq fell 2.25% after a four-point intraday reversal.", art_chart),
     ("3", "WASHINGTON · POLITICS · TODAY", "Trump faces the press on his Asia trip at noon",
@@ -236,9 +236,10 @@ for i, (num, tag, head, dek, art) in enumerate(heroes):
     d.text((X(cx + 25 - nw / 2), X(hy + 16.5)), num, font=sans_b(14), fill=WHITE)
     d.text((X(cx + 12), X(hy + 86)), tag, font=tagf, fill=GOLD)
     yy = draw_lines(cx + 12, hy + 104, wrap(head, hf, hw - 24), hf, INK, 1.12)
-    # Hero 2's longer dek is set a touch smaller so it stays inside its card.
-    hdkf = sans(10.0) if num == "2" else dkf
-    hlead = 1.12 if num == "2" else 1.15
+    # Heroes 1 and 2 have longer deks; they are set a touch smaller so each
+    # stays inside its card.
+    hdkf = {"1": sans(9.0), "2": sans(10.0)}.get(num, dkf)
+    hlead = {"1": 1.08, "2": 1.12}.get(num, 1.15)
     draw_lines(cx + 12, yy + 3, wrap(dek, hdkf, hw - 24), hdkf, INK, hlead)
 
 # ---------------------------------------------------------------- 6. story grid 4-13
@@ -252,9 +253,9 @@ cards = [
     ("7", "ASIA · INFLATION", None, "Japan's core inflation rises to 2.2%",
      "The year's high, as an energy subsidy expired; markets now look to a December Bank of Japan rate rise."),
     ("8", "YEMEN · WAR", "CLAIM", "Coalition says it struck 60 Houthi targets",
-     "It says four ballistic missiles were stopped. The Houthis claim strikes on four Saudi targets, including a Riyadh tower."),
+     "It says four ballistic missiles were stopped. The Houthis claim strikes on four Saudi targets, including a Riyadh tower. On Friday the coalition said Saudi air defences intercepted a Houthi ballistic missile over the kingdom's south."),
     ("9", "ANTALYA · CLIMATE", None, "COP31 reaches its final day with no deal in sight",
-     "Negotiators hunt a final text by midnight. The draft is cut from 144 paragraphs to 80, the fossil-fuel words are dropped and the $120bn adaptation figure is unresolved."),
+     "Negotiators hunt a final text by midnight. The draft is cut from 144 paragraphs to 80, the fossil-fuel words are dropped and the $120bn adaptation figure is unresolved. Panama says it may block a deal without a clear transition path."),
     ("10", "ASIA · SECURITY", "REPORTED", "North Korea expanding uranium enrichment",
      "The UN watchdog reports growth at the Yongbyon nuclear site."),
     ("11", "ASIA · HEALTH", None, "India launches its own H5N1 bird-flu vaccine",
@@ -282,9 +283,10 @@ for idx, (num, tag, chip, head, dek) in enumerate(cards):
         d.rectangle([X(cx + gw - cwid - 5), X(cy + gh - 19), X(cx + gw - 5), X(cy + gh - 4)], fill=GOLD)
         d.text((X(cx + gw - cwid - 0.5), X(cy + gh - 17)), chip, font=chipf, fill=WHITE)
     yy = draw_lines(cx + 7, cy + 27, wrap(head, chf, gw - 14), chf, INK, 1.08)
-    # Card 5's extended dek is set a touch smaller so it stays inside its card.
-    cdkf = sans(8.0) if num == "5" else cdf
-    cdlead = 1.02 if num == "5" else 1.08
+    # Cards 5, 8 and 9 have extended deks; they are set a touch smaller so
+    # each stays inside its card.
+    cdkf = sans(8.0) if num in ("5", "8", "9") else cdf
+    cdlead = 1.02 if num in ("5", "8", "9") else 1.08
     draw_lines(cx + 7, yy + 2, wrap(dek, cdkf, gw - 14), cdkf, INK, cdlead)
 
 # ---------------------------------------------------------------- 7. bottom band
@@ -376,7 +378,7 @@ briefs = [
     "Sensex +1.21% as India defies the selloff",
     "IEA: data-centre power use could double by 2030",
     "COP31 draft drops the fossil-fuel words",
-    "Phillips 118 and Nicholls 128* as New Zealand pass 300 on day two v India",
+    "New Zealand 317-6 at lunch on day two v India; Nicholls 146*, Phillips out for 118",
     "Modi opens a civilisations forum in Delhi",
     "Merz hosts Qatar's emir in Berlin",
     "Trump announces a posthumous pardon for Pete Rose",
@@ -395,6 +397,8 @@ briefs = [
     "Jakarta: Indonesia's parliament passes an asset-forfeiture bill",
     "GTA VI's first full day: user scores open, Metacritic 99",
     "California probes Nvidia over China chip risks",
+    "Oil eases in Friday dealing: Brent $89.72, WTI $82.83",
+    "China-Africa expo opens its second day in Johannesburg",
 ]
 bcolw = (aw - 24) / 3
 per = (len(briefs) + 2) // 3
@@ -437,7 +441,7 @@ dcf = sans(10.5)
 dc = ("DATE CHECK — First reported Thursday 19 November, so they are NOT on this page as Friday's news: "
       "the Shenzhen trilateral summit and its peace declaration · the ICJ's genocide ruling on Myanmar · "
       "Anthropic's record market debut · the release of GTA VI · the US Senate's 51-48 Iran war-powers vote · "
-      "Denmark's Greenland defence pact · Voyager 1's light-day milestone (19 Nov) · "
+      "Denmark's Greenland defence pact · Voyager 1's light-day milestone (18 Nov) · "
       "the acquittal of South Korea's ex-PM Han (19 Nov). Their Friday fallout is covered above.")
 draw_lines(MX + 12, dy + 6, wrap(dc, dcf, CW - 24), dcf, INK, 1.15)
 
