@@ -170,11 +170,17 @@ for i, (t, txt) in enumerate(stops):
 # ---------------------------------------------------------------- art helpers
 def art_storm(x, y, w, h):
     d.rectangle([X(x), X(y), X(x + w), X(y + h)], fill=(214, 224, 230))
-    cx, cy = x + w * 0.42, y + h * 0.44
-    for r in range(52, 7, -8):
-        d.arc([X(cx - r), X(cy - r), X(cx + r), X(cy + r)], 20, 300, fill=(70, 110, 140), width=3 * S)
-        d.arc([X(cx - r * 0.7), X(cy - r * 0.7), X(cx + r * 0.7), X(cy + r * 0.7)], 200, 120, fill=(70, 110, 140), width=3 * S)
-    d.ellipse([X(cx - 6), X(cy - 6), X(cx + 6), X(cy + 6)], fill=RED)
+    # Spiral sized to the sky above the sand strip: the old r<=52 rings on a
+    # cy of 0.44h overflowed the 70px band at the top and below the coast.
+    # Radii now top out at 20.5 around cy=0.357h, so the outermost ring
+    # (plus half its 2px stroke) spans y+3.5 to y+46.5 — inside the band and
+    # clear of the coast line (y+52 at cx). Ring steps of ~4.5px against the
+    # 2px stroke keep the rings separate, as in the original 8px/3px design.
+    cx, cy = x + w * 0.42, y + h * 0.357
+    for r in (20.5, 16, 11.5, 7):
+        d.arc([X(cx - r), X(cy - r), X(cx + r), X(cy + r)], 20, 300, fill=(70, 110, 140), width=2 * S)
+        d.arc([X(cx - r * 0.7), X(cy - r * 0.7), X(cx + r * 0.7), X(cy + r * 0.7)], 200, 120, fill=(70, 110, 140), width=2 * S)
+    d.ellipse([X(cx - 3.5), X(cy - 3.5), X(cx + 3.5), X(cy + 3.5)], fill=RED)
     pts = [(x, y + h * 0.78), (x + w * 0.3, y + h * 0.7), (x + w * 0.55, y + h * 0.8),
            (x + w * 0.8, y + h * 0.72), (x + w, y + h * 0.82), (x + w, y + h), (x, y + h)]
     d.polygon([(X(px), X(py)) for px, py in pts], fill=(196, 178, 128))
