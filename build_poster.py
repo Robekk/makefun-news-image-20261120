@@ -115,7 +115,7 @@ CW = 1024 - 2 * MX  # content width (final px)
 # ---------------------------------------------------------------- 1. kicker
 kf = sans_b(11)
 spaced(MX, 18, "ONE DAY OF WORLD NEWS, ONE PICTURE", kf, INK)
-spaced_right(1024 - MX, 18, "53 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
+spaced_right(1024 - MX, 18, "43 STORIES · 7 REGIONS · EVERY ONE FROM THIS FRIDAY", kf, RED)
 hline(MX, 1024 - MX, 40, INK, 3)
 hline(MX, 1024 - MX, 45, HAIR, 1)
 
@@ -299,9 +299,12 @@ for idx, (num, tag, chip, head, dek) in enumerate(cards):
     draw_lines(cx + 7, yy + 2, wrap(dek, cdkf, gw - 14), cdkf, INK, cdlead)
 
 # ---------------------------------------------------------------- 7. bottom band
-by = gy + 2 * gh + 6 + 8
-bh = 166
-mapw = 450
+# v9: band is taller (166 -> 180) and the map narrower (450 -> 320) so the
+# briefs beside it can run at a readable 7.25pt; the small gaps above and
+# below the band give up a few px to pay for the extra height.
+by = gy + 2 * gh + 6 + 5
+bh = 180
+mapw = 320
 d.rectangle([X(MX), X(by), X(MX + mapw), X(by + bh)], fill=(238, 240, 235), outline=HAIR, width=S)
 d.text((X(MX + 12), X(by + 7)), "WHERE IT HAPPENED", font=sans_b(12), fill=INK)
 # Simplified low-poly world map: one (lon, lat) polygon per landmass, drawn
@@ -369,7 +372,7 @@ for lon, lat, n in pin_order:
 for lon, lat, n in pin_order:
     draw_pin(lon, lat, n, number_only=True)
 
-# right: ALSO ON FRIDAY briefs 14-40, three flowing columns
+# right: ALSO ON FRIDAY briefs 14-43, three flowing columns
 ax = MX + mapw + 16
 aw = 1024 - MX - ax
 d.text((X(ax), X(by + 1)), "ALSO ON FRIDAY", font=sans_b(12), fill=INK)
@@ -381,7 +384,6 @@ briefs = [
     "Iraq takes a base in the Jurf al-Sakhar militia stronghold",
     "Migrant boat sinks off Senegal; dozens missing",
     "Genoa airport halts flights over unidentified drones",
-    "Toddler pulled from Tbilisi rubble 8 hours after gas blast",
     "One dead, 15 hurt in French apartment-block fire",
     "South Korea's exports pass $1 trillion for the first time",
     "Sensex +1.21% as India defies the selloff",
@@ -391,15 +393,8 @@ briefs = [
     "Modi opens a civilisations forum in Delhi",
     "Merz hosts Qatar's emir in Berlin",
     "Trump announces a posthumous pardon for Pete Rose",
-    "Haiti approves Salvadoran troops to fight the gangs",
     "US and Venezuela restore military cooperation",
     "EU-UK summit opens in Brussels",
-    "Philippines signs a trade deal with Chile",
-    "India's electronics exports jump 44%",
-    "EU delays its methane rules by 24 months",
-    "Australia beat Argentina 2-0 at the U17 World Cup",
-    "World Children's Day is marked around the globe",
-    "Amur falcons complete their Arabian Sea crossing",
     "Florida's St. Johns River hits a record 18.3 ft; schools shut in four counties",
     "The US war against Iran has cost $48.3bn, the Pentagon says",
     "Taiwan reports Russian bombers flying east of the island",
@@ -408,50 +403,52 @@ briefs = [
     "California probes Nvidia over China chip risks",
     "Oil eases in Friday dealing: Brent $89.72, WTI $82.83",
     "China-Africa expo opens its second day in Johannesburg",
-    "Iowa: the army blows up 68 barrels of unstable explosive at noon",
-    "South Australia storm fells two towers; 24,000 properties lose power",
     "Italy hit by a 24-hour general strike; rail stoppage runs into Saturday",
     "Bitcoin slips to $61,503 in Friday trade",
     "Flash-flood risk in Ganjam, Puri, Gajapati and Mayurbhanj as Akvan moves inland",
     "Akvan weakens inland; officials expect no major damage, fishermen stay ashore till Saturday",
 ]
 bcolw = (aw - 24) / 3
-per = (len(briefs) + 2) // 3
-chunks = [briefs[i * per:(i + 1) * per] for i in range(3)]
 
-
-def brief_height(fs, leading, gap):
-    """Tallest of the three brief columns (final px) at the given type size."""
-    f = sans(fs)
-    worst = 0
-    for chunk in chunks:
-        h = 0
-        for btxt in chunk:
-            h += len(wrap(btxt, f, bcolw - 15)) * (f.size * leading) / S + gap
-        worst = max(worst, h - gap)
-    return worst
-
-
-# Shrink the brief type until all three columns fit inside the band.
-bfs, blead, bgap = 6.0, 1.05, 1.5
-for fs_try, lead_try, gap_try in ((7.5, 1.05, 2.0), (7.0, 1.05, 1.8), (7.0, 1.03, 1.5),
-                                  (6.5, 1.05, 1.5), (6.5, 1.03, 1.2), (6.0, 1.05, 1.5),
-                                  (5.5, 1.03, 1.0), (5.25, 1.03, 1.0), (5.0, 1.03, 1.0)):
-    if brief_height(fs_try, lead_try, gap_try) <= bh - 28:
-        bfs, blead, bgap = fs_try, lead_try, gap_try
-        break
+# v9 legibility pass: the brief type NEVER drops below 7.25pt. Ten weakest
+# briefs were cut (Amur falcons, Australia U17, World Children's Day,
+# Philippines-Chile trade, EU methane, Tbilisi toddler, Iowa lead-azide,
+# South Australia storm, Haiti troops, India electronics) rather than
+# shrinking the type; the surviving 30 run at a fixed 7.25pt in near-black
+# with comfortable spacing. The columns stay in list order but the two
+# split points are chosen to balance column heights, so no column can
+# overflow the band.
+BRIEFINK = (10, 10, 14)
+bfs, blead, bgap = 7.25, 1.10, 2.25
 bff = sans(bfs)
 bnf = sans_b(bfs)
+
+
+def brief_h(btxt):
+    return len(wrap(btxt, bff, bcolw - 15)) * (bff.size * blead) / S + bgap
+
+
+bhs = [brief_h(b) for b in briefs]
+best = None
+for i in range(1, len(briefs) - 1):
+    for j in range(i + 1, len(briefs)):
+        m = max(sum(bhs[:i]), sum(bhs[i:j]), sum(bhs[j:]))
+        if best is None or m < best[0]:
+            best = (m, i, j)
+_, si, sj = best
+assert best[0] - bgap <= bh - 23, "briefs overflow the band"
+chunks = [briefs[:si], briefs[si:sj], briefs[sj:]]
+n = 14
 for col, chunk in enumerate(chunks):
     bx = ax + col * (bcolw + 12)
-    byy = by + 24
-    for j, btxt in enumerate(chunk):
-        n = 14 + col * per + j
+    byy = by + 20
+    for btxt in chunk:
         d.text((X(bx), X(byy)), f"{n}", font=bnf, fill=RED)
-        byy = draw_lines(bx + 15, byy, wrap(btxt, bff, bcolw - 15), bff, INK, blead) + bgap
+        byy = draw_lines(bx + 15, byy, wrap(btxt, bff, bcolw - 15), bff, BRIEFINK, blead) + bgap
+        n += 1
 
 # ---------------------------------------------------------------- 8. date check
-dy = by + bh + 6
+dy = by + bh + 5
 d.rectangle([X(MX), X(dy), X(1024 - MX), X(dy + 48)], fill=REDBAND)
 dcf = sans(10.5)
 dc = ("DATE CHECK — First reported Thursday 19 November, so they are NOT on this page as Friday's news: "
@@ -463,7 +460,7 @@ dc = ("DATE CHECK — First reported Thursday 19 November, so they are NOT on th
 draw_lines(MX + 12, dy + 6, wrap(dc, dcf, CW - 24), dcf, INK, 1.15)
 
 # ---------------------------------------------------------------- 9. footer
-fy = dy + 48 + 8
+fy = dy + 48 + 6
 hline(MX, 1024 - MX, fy, INK, 2)
 ff = sans(9.5)
 foot = ("Every story here happened, or was first reported, on Friday 20 November 2026, in some time zone. "
