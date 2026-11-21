@@ -130,7 +130,7 @@ hline(MX, 1024 - MX, 108, INK, 3)
 stats = [
     ("370,000", "people evacuated in Odisha before Cyclone Akvan"),
     ("-4.7%", "Nikkei 225 close, Friday in Tokyo"),
-    ("-2.02%", "S&P 500 overnight — a sixth straight fall"),
+    ("-3.70%", "S&P 500 Friday close — a seventh straight fall"),
     ("144 → 80", "paragraphs left in the COP31 draft"),
     ("60", "Houthi targets the coalition says it struck"),
     ("2.2%", "Japan core inflation — the year's high"),
@@ -156,7 +156,7 @@ stops = [
     ("~02:00 UTC", "Cyclone Akvan crosses the coast near Gopalpur"),
     ("Morning", "Asia's AI selloff deepens; China holds its loan rates"),
     ("17:00 UTC", "Trump faces the press at the White House"),
-    ("Late", "Wall Street opens after six straight falls"),
+    ("Late", "Wall Street closes in a rout: S&P -3.7%, Nasdaq -5.3%"),
 ]
 sw = (CW - 16) / 5
 bf, df = sans_b(11.5), sans(10)
@@ -223,11 +223,11 @@ def art_whitehouse(x, y, w, h):
 # ---------------------------------------------------------------- 5. hero cards
 heroes = [
     ("1", "ODISHA · CYCLONE · TODAY", "Cyclone Akvan crosses the coast near Gopalpur",
-     "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. Patrapur, Ganjam district, recorded 209 mm in 24 hours; 370,000 people evacuated to 2,523 camps and 9,341 shelters; 423 rescue teams deployed. Officials report no major damage or loss of life; India's third cyclone in 24 days, weakening into a deep depression inland.", art_storm),
+     "Akvan crossed the Odisha coast near Gopalpur between 07:30 and 08:30 IST on Friday at 70-80 gusting to 90 km/h, the IMD says, with a red warning for extremely heavy rain in Mayurbhanj and Balasore. Patrapur, Ganjam district, recorded 209 mm in 24 hours; 370,000 people evacuated to 2,523 camps and 9,341 shelters; 423 rescue teams deployed. Officials report no deaths and no major damage as the storm dissipated the same day; 1,450 babies were born in the shelters.", art_storm),
     ("2", "ASIA-PACIFIC · MARKETS · REPORTED", "AI selloff deepens as Asia's markets slide",
-     "Seoul's Kospi closed down 5.2% at 4,869.96, its lowest in 10 months, with sell-side sidecars halting program selling; Samsung Electronics fell 7%. Tokyo's Nikkei closed down 4.7% at 56,631 with SoftBank down 16%, and Taiwan is down 16% this week, its worst since 1991. Asia is heading for its worst week since 2020 after the Nasdaq's 2.25% fall; Anthropic's record debut failed to lift the sector.", art_chart),
-    ("3", "WASHINGTON · POLITICS · TODAY", "Trump faces the press on his Asia trip at noon",
-     "The White House news conference, his first since the Shenzhen summit, is set to cover the trip and trade deals with Thailand, the Philippines and others.", art_whitehouse),
+     "Seoul's Kospi closed down 5.2% at 4,869.96, its lowest in 10 months, with sell-side sidecars halting program selling; Samsung Electronics fell 7%. Tokyo's Nikkei closed down 4.7% at 56,631 with SoftBank down 16%, and Taiwan is down 16% this week, its worst since 1991. Asia is heading for its worst week since 2020 after the Nasdaq's 2.25% fall; Anthropic slid on its second day after its record debut.", art_chart),
+    ("3", "WASHINGTON · POLITICS · TODAY", "Trump floats Miller, defends Putin, taxes data centres",
+     "He floated Stephen Miller for president, called Putin a 'friend' who 'would love' to end the war, and unveiled a 'tremendous tax' on US data centres abroad. He hailed $17bn+ in Asia deals.", art_whitehouse),
 ]
 hy = 284
 hw = (CW - 24) / 3
@@ -247,6 +247,13 @@ for i, (num, tag, head, dek, art) in enumerate(heroes):
     # shelter count), so it drops to 7.5/1.03. In v11 it gains the afternoon
     # outcome (no major damage reported; third cyclone in 24 days; weakening
     # into a deep depression) and runs 7 lines at 7.5/1.03, ~3px to spare.
+    # v12 swaps in the final outcome (dissipated the same day, no deaths,
+    # 1,450 babies born in the shelters) and drops the third-cyclone clause;
+    # still 7 lines at 7.5/1.03, ~3px to spare. Hero 3's v12 dek (Miller
+    # float, Putin defence, data-centre tax) runs 4 lines at 10.5/1.15, inside
+    # the card with ~9px to spare. (A 5-line draft with "chief of staff" and
+    # "US firms building" touched the card's bottom border, so it was trimmed
+    # to this 4-line wording instead.)
     # Hero 2's v11 dek (Kospi close, Samsung, sidecars) no longer fits at
     # 8.5/1.08, so it joins hero 1 at 7.5/1.03 — 6 lines.
     hdkf = {"1": sans(7.5), "2": sans(7.5)}.get(num, dkf)
@@ -265,8 +272,8 @@ cards = [
      "The year's high, as an energy subsidy expired; markets now look to a December Bank of Japan rate rise."),
     ("8", "YEMEN · WAR", "CLAIM", "Coalition says it struck 60 Houthi targets",
      "It says four ballistic missiles were stopped. The Houthis claim strikes on four Saudi targets, including a Riyadh tower. On Friday the coalition said Saudi air defences intercepted a Houthi ballistic missile over the kingdom's south."),
-    ("9", "ANTALYA · CLIMATE", None, "COP31 reaches its final day with no deal in sight",
-     "Negotiators hunt a final text by midnight. The draft is cut from 144 paragraphs to 80, the fossil-fuel words are dropped and the $120bn adaptation figure is unresolved. Panama says it may block a deal without a clear transition path."),
+    ("9", "ANTALYA · CLIMATE", None, "COP31 slips into overtime with no deal",
+     "Talks slipped into overtime, a third draft due Saturday; Friday passed technical items only. The draft is cut from 144 paragraphs to 80, fossil-fuel words dropped and the $120bn adaptation target deleted, replaced by a call to triple adaptation finance by 2035."),
     ("10", "ASIA · SECURITY", "REPORTED", "North Korea expanding uranium enrichment",
      "The UN watchdog reports growth at the Yongbyon nuclear site."),
     ("11", "ASIA · HEALTH", None, "India launches its own H5N1 bird-flu vaccine",
@@ -409,18 +416,18 @@ briefs = [
     "Florida's St. Johns River hits a record 18.3 ft; schools shut in four counties",
     "The US war against Iran has cost $48.3bn, the Pentagon says",
     "Taiwan reports Russian bombers flying east of the island",
-    "Jakarta stocks fall with Asia: the JCI opens 0.8% lower, the rupiah near record lows",
+    "JCI closes 5,146.33, down 0.92% for a fifth straight fall; rupiah Rp18,270 per dollar",
     "GTA VI's first full day: user scores open, Metacritic 99",
     "California probes Nvidia over China chip risks",
     "Oil eases in Friday dealing: Brent $89.72, WTI $82.83",
-    "China-Africa expo opens its second day in Johannesburg",
+    "China-Africa expo, day two in Johannesburg",
     "Italy hit by a 24-hour general strike; rail stoppage runs into Saturday",
-    "Bitcoin slips to $61,503 in Friday trade",
+    "Bitcoin breaks below $60,000 to ~$59,000, first time since July",
     "Flash-flood risk in Ganjam, Puri, Gajapati and Mayurbhanj as Akvan moves inland",
     "Akvan weakens inland; officials expect no major damage, fishermen stay ashore till Saturday",
     "Orange alert for five Jharkhand districts as Akvan's rain pushes inland",
     "Taiwan's Taiex falls over 5% in the Asia rout",
-    "World Children's Day is marked on 20 November",
+    "Anthropic slides on its second day after its record debut",
     "India's electronics exports rise as phone shipments grow",
     "Philippines and Chile open trade talks in Santiago",
     "EU agrees new methane rules for imported gas",
@@ -441,6 +448,10 @@ bcolw = (aw - 24) / 3
 # trade talks, EU methane, South Australia storm) for 37 briefs / 50
 # stories — still at the fixed 7.25pt; the inter-brief gap eases 2.25 ->
 # 2.0 and the taller band (see section 7 header) absorbs the rest.
+# v12: still 37 briefs / 50 stories at the fixed 7.25pt — the Children's Day
+# brief is displaced by Anthropic's second-day slide, the Bitcoin brief moves
+# below $60,000, the Jakarta brief takes the JCI close, and the China-Africa
+# brief is tightened one line (same facts) so the tallest column still fits.
 BRIEFINK = (10, 10, 14)
 bfs, blead, bgap = 7.25, 1.10, 2.0
 bff = sans(bfs)
@@ -474,12 +485,13 @@ for col, chunk in enumerate(chunks):
 dy = by + bh + 2
 d.rectangle([X(MX), X(dy), X(1024 - MX), X(dy + 48)], fill=REDBAND)
 dcf = sans(10.5)
-dc = ("DATE CHECK — First reported Thursday 19 November, so they are NOT on this page as Friday's news: "
-      "the Shenzhen trilateral summit and its peace declaration · the ICJ's genocide ruling on Myanmar · "
-      "Anthropic's record market debut · the release of GTA VI · the US Senate's 51-48 Iran war-powers vote · "
-      "Denmark's Greenland defence pact · Voyager 1's light-day milestone (18 Nov) · "
-      "the acquittal of South Korea's ex-PM Han (19 Nov) · Indonesia's asset-forfeiture law (19 Nov). "
-      "Their Friday fallout is covered above.")
+dc = ("DATE CHECK — Reported Thursday 19 November, NOT Friday's news: "
+      "the Shenzhen summit declaration · the ICJ genocide ruling on Myanmar · "
+      "Anthropic's record market debut · GTA VI's release · the Senate's 51-48 Iran war-powers vote · "
+      "Denmark's Greenland pact · Voyager 1's milestone (18 Nov) · "
+      "ex-PM Han's acquittal · Indonesia's asset-forfeiture law · "
+      "a new national cyber director named (Thu) · Bank Indonesia's rate rise to 6% (18 Nov) · "
+      "the Peltola lawsuit dropped (Thu). Friday fallout is covered above.")
 draw_lines(MX + 12, dy + 6, wrap(dc, dcf, CW - 24), dcf, INK, 1.15)
 
 # ---------------------------------------------------------------- 9. footer
